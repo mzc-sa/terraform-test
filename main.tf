@@ -3,7 +3,7 @@
 
 module "vpc" {
   source  = "app.terraform.io/MEGA10/vpc/aws"
-  version = "1.0.2"
+  version = "1.0.3"
 
   name = "Today-vpc"
   cidr = "10.10.0.0/16"
