@@ -34,6 +34,12 @@ variable "single_nat_gateway" {
   default     = false
 }
 
+variable "default_vpc_enable_dns_hostnames" {
+  description = "Should be true to enable DNS hostnames in the Default VPC"
+  type        = bool
+  default     = false
+}
+
 variable "private_subnets" {
   description = "A list of private subnets inside the VPC"
   type        = list(string)
