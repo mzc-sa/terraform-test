@@ -34,8 +34,8 @@ variable "single_nat_gateway" {
   default     = false
 }
 
-variable "default_vpc_enable_dns_hostnames" {
-  description = "Should be true to enable DNS hostnames in the Default VPC"
+variable "enable_dns_hostnames" {
+  description = "Should be true to enable DNS hostnames in the VPC"
   type        = bool
   default     = false
 }
