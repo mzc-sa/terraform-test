@@ -46,6 +46,12 @@ variable "public_subnets" {
   default     = []
 }
 
+variable "database_subnets" {
+  description = "A list of database subnets"
+  type        = list(string)
+  default     = []
+}
+
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
