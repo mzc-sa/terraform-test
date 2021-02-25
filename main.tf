@@ -7,7 +7,6 @@ module "s3" {
   version = "1.0.0"
 
   bucket        = var.bucket
-  bucket_prefix = var.bucket_prefix
   tags          = var.tags
 }
 
