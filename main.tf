@@ -1,5 +1,15 @@
 //--------------------------------------------------------------------
 // Modules
+//--------------------------------------------------------------------
+
+module "s3" {
+  source  = "app.terraform.io/MEGA10/s3/aws"
+  version = "1.0.0"
+
+  bucket        = var.bucket
+  bucket_prefix = var.bucket_prefix
+  tags          = var.tags
+}
 
 module "vpc" {
   source  = "app.terraform.io/MEGA10/vpc/aws"
@@ -12,8 +22,6 @@ module "vpc" {
   enable_nat_gateway     = var.enable_nat_gateway
   one_nat_gateway_per_az = var.one_nat_gateway_per_az
   single_nat_gateway     = var.single_nat_gateway
-
-  enable_dns_hostnames = var.enable_dns_hostnames
 
   private_subnets  = var.private_subnets
   public_subnets   = var.public_subnets
