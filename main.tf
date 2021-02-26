@@ -8,16 +8,16 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
-module "security-group" {
-  source  = "app.terraform.io/MEGA10/security-group/aws"
-  version = "1.0.2"
+# module "security-group" {
+#   source  = "app.terraform.io/MEGA10/security-group/aws"
+#   version = "1.0.2"
 
-  name   = "${var.name}-sg"
-  vpc_id = "vpc-0e2f0a7cf315d71cc"
-  #vpc_id              = data.terraform_remote_state.vpc.outputs.vpc_id
-  ingress_cidr_blocks = ["10.10.0.0/16"]
-  ingress_rules       = ["https-80-tcp"]
-}
+#   name   = "${var.name}-sg"
+#   vpc_id = "vpc-0e2f0a7cf315d71cc"
+#   #vpc_id              = data.terraform_remote_state.vpc.outputs.vpc_id
+#   ingress_cidr_blocks = ["10.10.0.0/16"]
+#   ingress_rules       = ["https-80-tcp"]
+# }
 
 module "s3" {
   source  = "app.terraform.io/MEGA10/s3/aws"
