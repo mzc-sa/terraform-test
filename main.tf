@@ -30,6 +30,7 @@ module "security-group" {
       cidr_blocks = "0.0.0.0/0"
     },
   ]
+  egress_rules = ["all-all"]
 }
 
 module "s3" {
