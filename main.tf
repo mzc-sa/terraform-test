@@ -15,8 +15,8 @@ module "security-group" {
   name   = "${var.name}-sg"
   vpc_id  = data.terraform_remote_state.vpc.outputs.vpc_id
   
-  ingress_cidr_blocks      = ["10.10.0.0/16"]
-  ingress_rules       = ["http-80-tcp"]
+  ingress_cidr_blocks      = ["10.10.0.0/16","0.0.0.0/0"]
+  ingress_rules       = ["http-80-tcp","https-443-tcp"]
 }
 
 module "s3" {
