@@ -1,13 +1,29 @@
-//--------------------------------------------------------------------
-// Modules
-//--------------------------------------------------------------------
+data "terraform_remote_state" "vpc" {
+  backend = "remote"
+  config = {
+    organization = "MEGA10"
+    workspaces = {
+      name = "terraform-test"
+    }
+  }
+}
+
+module "security-group" {
+  source  = "app.terraform.io/MEGA10/security-group/aws"
+  version = "1.0.0"
+
+  name                = "${var.name}-sg"
+  vpc_id              = data.terraform_remote_state.vpc.outputs.vpc_id
+  ingress_cidr_blocks = ["10.10.0.0/16"]
+  ingress_rules       = ["https-80-tcp"]
+}
 
 module "s3" {
   source  = "app.terraform.io/MEGA10/s3/aws"
   version = "1.0.0"
 
-  bucket        = var.bucket
-  tags          = var.tags
+  bucket = var.bucket
+  tags   = var.tags
 }
 
 module "vpc" {
