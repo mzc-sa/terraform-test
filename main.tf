@@ -1,87 +1,41 @@
-data "terraform_remote_state" "vpc" {
-  backend = "remote"
-  config = {
-    organization = "MEGA10"
-    workspaces = {
-      name = "terraform-test"
-    }
-  }
-}
+//--------------------------------------------------------------------
+// Modules
+//--------------------------------------------------------------------
 
-module "security-group" {
-  source  = "app.terraform.io/MEGA10/security-group/aws"
-  version = "1.0.2"
-
-  name   = "${var.name}-sg"
-  vpc_id  = data.terraform_remote_state.vpc.outputs.vpc_id
-  
-  ingress_cidr_blocks      = ["10.10.0.0/16","0.0.0.0/0"]
-  ingress_rules       = ["http-80-tcp","https-443-tcp"]
-  ingress_with_cidr_blocks = [
-    {
-      from_port   = 8080
-      to_port     = 8090
-      protocol    = "tcp"
-      description = "User-service ports"
-      cidr_blocks = "10.10.0.0/16"
-    },
-    {
-      rule        = "ssh-tcp"
-      cidr_blocks = "0.0.0.0/0"
-    },
-  ]
-  egress_rules = ["all-all"]
-}
-
-module "s3" {
-  source  = "app.terraform.io/MEGA10/s3/aws"
-  version = "1.0.0"
-
-  bucket = var.bucket
-  tags   = var.tags
-}
+######
+# VPC
+######
 
 module "vpc" {
-  source  = "app.terraform.io/MEGA10/vpc/aws"
+  source  = "app.terraform.io/MEGAZONE-test/vpc/aws"
   version = "1.0.7"
 
-  name = var.name
-  cidr = var.cidr
-  azs  = var.azs
+  # vpc
+  name                 = var.name
+  cidr                 = var.cidr
+  azs                  = var.azs
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 
-  enable_nat_gateway     = var.enable_nat_gateway
-  one_nat_gateway_per_az = var.one_nat_gateway_per_az
-  single_nat_gateway     = var.single_nat_gateway
-
+  # subnet
   private_subnets  = var.private_subnets
   public_subnets   = var.public_subnets
   database_subnets = var.database_subnets
 
-  tags = var.tags
-  igw_tags = {
-    Name = "${var.name}-igw"
-  }
+  # gateway
+  enable_nat_gateway     = var.enable_nat_gateway
+  single_nat_gateway     = var.single_nat_gateway
+  one_nat_gateway_per_az = var.one_nat_gateway_per_az
 
-  nat_eip_tags = {
-    Name = "${var.name}-nat-eip"
-  }
+  # RDS
+  create_database_subnet_route_table = var.create_database_subnet_route_table
+  create_database_nat_gateway_route = var.create_database_nat_gateway_route
+  create_database_internet_gateway_route = var.create_database_internet_gateway_route
+  create_database_subnet_group = var.create_database_subnet_group
 
-  nat_gateway_tags = {
-    Name = "${var.name}-nat-gw"
-  }
-  private_subnet_tags = {
-    Tier = "private"
-  }
-
-  private_route_table_tags = {
-    Name = "${var.name}-private-rt"
-  }
-
-  public_subnet_tags = {
-    Tier = "public"
-  }
-
-  public_route_table_tags = {
-    Name = "${var.name}-public-rt"
-  }
+  # tag
+  tags                 = var.tags
+  public_subnet_tags   = var.public_subnet_tags
+  private_subnet_tags  = var.private_subnet_tags
+  database_subnet_tags = var.database_subnet_tags
 }
