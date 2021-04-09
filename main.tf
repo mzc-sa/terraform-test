@@ -43,8 +43,10 @@ data "aws_ami" "amazon_linux_2" {
 ##################################################################
 
 module "security_group" {
-  source  = "terraform-aws-modules/security-group/aws"
-  version = "~> 3.0"
+  source  = "app.terraform.io/MEGAZONE-test/security-group/aws"
+  version = "1.0.4"
+  # insert required variables here
+}
 
   name            = "${var.name}-sg"
   use_name_prefix = false
