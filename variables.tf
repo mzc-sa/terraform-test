@@ -19,12 +19,6 @@ variable "azs" {
   default     = []
 }
 
-variable "default_vpc_name" {
-  description = "Name to be used on the Default VPC"
-  type        = string
-  default     = "-vpc"
-}
-
 variable "database_subnets" {
   description = "A list of database subnets"
   type        = list(string)
@@ -69,6 +63,12 @@ variable "create_database_subnet_group" {
 
 # tags
 variable "tags" {
+  description = "A map of tags to add to all resources"
+  type        = map(string)
+  default     = {}
+}
+
+variable "vpc_tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
   default     = {}
