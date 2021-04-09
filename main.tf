@@ -35,8 +35,10 @@ module "vpc" {
 
   # tag
   tags                 = var.tags
-  vpc_tags             = var.vpc_tags
   public_subnet_tags   = var.public_subnet_tags
   private_subnet_tags  = var.private_subnet_tags
   database_subnet_tags = var.database_subnet_tags
+  vpc_tags = {
+    Name = "${var.name}-vpc"
+  }
 }
