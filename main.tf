@@ -14,7 +14,6 @@ module "vpc" {
   name                 = var.name
   cidr                 = var.cidr
   azs                  = var.azs
-  default_vpc_name     = "${var.name}-vpc"
   enable_dns_hostnames = true
   enable_dns_support   = true
 
@@ -36,6 +35,7 @@ module "vpc" {
 
   # tag
   tags                 = var.tags
+  vpc_tags             = "${var.name}-vpc"
   public_subnet_tags   = var.public_subnet_tags
   private_subnet_tags  = var.private_subnet_tags
   database_subnet_tags = var.database_subnet_tags
