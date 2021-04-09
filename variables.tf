@@ -69,7 +69,7 @@ variable "tags" {
 }
 
 variable "vpc_tags" {
-  description = "A map of tags to add to all resources"
+  description = "Additional tags for the VPC"
   type        = map(string)
   default     = {}
 }
