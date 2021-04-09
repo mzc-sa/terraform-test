@@ -65,8 +65,8 @@ resource "aws_eip" "this" {
 }
 
 module "ec2_cluster" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
-  version = "2.17.0"
+  source  = "app.terraform.io/MEGAZONE-test/ec2/aws"
+  version = "1.0.0"
 
   instance_count = 1
 
