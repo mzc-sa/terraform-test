@@ -15,7 +15,7 @@ EOF
 ##################################################################
 data "aws_vpc" "default" {
   tags = {
-    Environment = "prod"
+    Environment = "test"
   }
 }
 
