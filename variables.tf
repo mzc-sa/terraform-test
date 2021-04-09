@@ -19,6 +19,12 @@ variable "azs" {
   default     = []
 }
 
+variable "default_vpc_name" {
+  description = "Name to be used on the Default VPC"
+  type        = string
+  default     = "-vpc"
+}
+
 variable "database_subnets" {
   description = "A list of database subnets"
   type        = list(string)
