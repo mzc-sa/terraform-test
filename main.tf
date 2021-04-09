@@ -22,11 +22,6 @@ data "aws_vpc" "default" {
 data "aws_subnet_ids" "public" {
   vpc_id = data.aws_vpc.default.id
 
-  filter {
-    name   = "tag:Name"
-    values = ["*-public"]
-  }
-
   tags = {
     Tier = "public"
   }
