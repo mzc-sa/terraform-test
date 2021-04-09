@@ -42,20 +42,6 @@ data "aws_ami" "amazon_linux_2" {
 # Bastion Host Instance (EC2)
 ##################################################################
 
-module "security_group" {
-  source  = "app.terraform.io/MEGAZONE-test/security-group/aws"
-  version = "1.0.4"
-
-  name            = "${var.name}-sg"
-  use_name_prefix = false
-  description     = "Security group for example usage with EC2 instance"
-  vpc_id          = data.aws_vpc.default.id
-
-  ingress_rules       = ["ssh-tcp"]
-  ingress_cidr_blocks = var.ingress_cidr_blocks
-  egress_rules  = ["all-all"]
-}
-
 resource "aws_eip" "this" {
   vpc      = true
   instance = module.ec2_cluster.id[0]
@@ -77,7 +63,6 @@ module "ec2_cluster" {
   instance_type               = var.instance_type
   subnet_id                   = var.subnet_id_enabled ? var.subnet_id : tolist(data.aws_subnet_ids.public.ids)[0]
   private_ip                  = var.private_ip
-  vpc_security_group_ids      = [module.security_group.this_security_group_id]
   associate_public_ip_address = true
 
   # UserData
