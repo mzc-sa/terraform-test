@@ -14,6 +14,7 @@ module "vpc" {
   name                 = var.name
   cidr                 = var.cidr
   azs                  = var.azs
+  default_vpc_name     = "${var.name}-vpc"
   enable_dns_hostnames = true
   enable_dns_support   = true
 
