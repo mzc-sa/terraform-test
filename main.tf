@@ -24,7 +24,7 @@ data "aws_subnet_ids" "public" {
 
   filter {
     name   = "tag:Name"
-    values = ["*-pub-2a"]
+    values = ["*-public"]
   }
 
   tags = {
