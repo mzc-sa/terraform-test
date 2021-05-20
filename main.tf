@@ -39,3 +39,14 @@ module "vpc" {
   private_subnet_tags  = var.private_subnet_tags
   database_subnet_tags = var.database_subnet_tags
 }
+
+module "security-group" {
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "4.0.0"
+ 
+  name        = "test-sg"
+  description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
+  vpc_id      = "vpc-e213cd89"
+
+  ingress_cidr_blocks = ["10.10.0.0/16"]
+}
