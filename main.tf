@@ -52,7 +52,7 @@ module "security-group" {
  
   name        = "test-sg"
   description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
-  vpc_id      = "vpc-e213cd89"
+  vpc_id      = module.vpc.vpc_id
 
   ingress_cidr_blocks = ["10.10.0.0/16"]
 }
