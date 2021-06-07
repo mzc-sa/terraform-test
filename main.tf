@@ -39,15 +39,6 @@ module "vpc" {
   private_subnet_tags  = var.private_subnet_tags
   database_subnet_tags = var.database_subnet_tags
   
-  public_route_table_tags = {
-    Name = "${var.name}-rt"
-  }
-  private_route_table_tags = {
-    Name = "${var.name}-rt"
-  }
-  database_route_table_tags = {
-   Name = "${var.name}-rt"
-  }
   vpc_tags = {
     Name = "${var.name}-vpc"
   }
