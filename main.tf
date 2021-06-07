@@ -8,7 +8,7 @@
 
 module "vpc" {
   source  = "app.terraform.io/MEGAZONE-main/vpc/aws"
-  version = "1.0.16"
+  version = "1.0.17"
 
   # vpc
   name                 = var.name
@@ -38,15 +38,6 @@ module "vpc" {
   public_subnet_tags   = var.public_subnet_tags
   private_subnet_tags  = var.private_subnet_tags
   database_subnet_tags = var.database_subnet_tags
-  
-  vpc_tags = {
-    Name = "${var.name}-vpc"
-  }
-  
-  igw_tags = {
-    Name = "${var.name}-igw"
-  }
-}
 
 module "security-group" {
   source  = "app.terraform.io/MEGAZONE-main/security-group/aws"
