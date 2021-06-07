@@ -42,6 +42,7 @@ module "vpc" {
   vpc_tags = {
     Name = "${var.name}-vpc"
   }
+  
   igw_tags = {
     Name = "${var.name}-igw"
   }
