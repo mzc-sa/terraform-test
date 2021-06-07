@@ -47,7 +47,7 @@ module "vpc" {
 }
 
 module "security-group" {
-  source  = "terraform-aws-modules/security-group/aws"
+  source  = "app.terraform.io/MEGAZONE-main/security-group/aws"
   version = "1.0.4"
  
   name        = "test-sg"
