@@ -38,7 +38,8 @@ module "vpc" {
   public_subnet_tags   = var.public_subnet_tags
   private_subnet_tags  = var.private_subnet_tags
   database_subnet_tags = var.database_subnet_tags
-
+}
+  
 module "security-group" {
   source  = "app.terraform.io/MEGAZONE-main/security-group/aws"
   version = "1.0.4"
