@@ -10,7 +10,7 @@ data "terraform_remote_state" "vpc" {
 
 module "security-group" {
   source  = "app.terraform.io/MEGA10/security-group/aws"
-  version = "1.0.2"
+  version = "1.0.4"
 
   name   = "${var.name}-sg"
   vpc_id  = data.terraform_remote_state.vpc.outputs.vpc_id
@@ -43,7 +43,7 @@ module "s3" {
 
 module "vpc" {
   source  = "app.terraform.io/MEGA10/vpc/aws"
-  version = "1.0.7"
+  version = "1.0.10"
 
   name = var.name
   cidr = var.cidr
