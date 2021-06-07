@@ -8,7 +8,7 @@
 
 module "vpc" {
   source  = "app.terraform.io/MEGAZONE-test/vpc/aws"
-  version = "1.0.7"
+  version = "1.0.10"
 
   # vpc
   name                 = var.name
@@ -48,7 +48,7 @@ module "vpc" {
 
 module "security-group" {
   source  = "terraform-aws-modules/security-group/aws"
-  version = "4.0.0"
+  version = "1.0.4"
  
   name        = "test-sg"
   description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
