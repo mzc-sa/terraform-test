@@ -79,7 +79,7 @@ module "ec2_cluster" {
   instance_type               = var.instance_type
   subnet_id                   = var.subnet_id_enabled ? var.subnet_id : tolist(data.aws_subnet_ids.public.ids)[0]
   private_ip                  = var.private_ip
-  vpc_security_group_ids      = [module.security_group.this_security_group_id]
+  vpc_security_group_ids      = [module.security-group.this_security_group_id]
   associate_public_ip_address = true
 
   # UserData
