@@ -15,7 +15,7 @@ EOF
 ##################################################################
 data "aws_vpc" "default" {
   tags = {
-    Environment = "test"
+    Environment = "prod"
   }
 }
 
@@ -51,7 +51,7 @@ resource "aws_eip" "this" {
 }
 
 module "ec2_cluster" {
-  source  = "app.terraform.io/MEGAZONE-test/ec2/aws"
+  source  = "app.terraform.io/MEGAZONE-prod/ec2/aws"
   version = "1.0.0"
 
   instance_count = 1
