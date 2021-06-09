@@ -7,7 +7,7 @@
 ######
 
 module "vpc" {
-  source  = "app.terraform.io/MEGAZONE-main/vpc/aws"
+  source  = "app.terraform.io/MEGAZONE-prod/vpc/aws"
   version = "1.0.22"
 
   # vpc
@@ -41,7 +41,7 @@ module "vpc" {
 }
   
 module "security-group" {
-  source  = "app.terraform.io/MEGAZONE-main/security-group/aws"
+  source  = "app.terraform.io/MEGAZONE-prod/security-group/aws"
   version = "1.0.4"
  
   name        = "test-sg"
