@@ -8,7 +8,7 @@
 
 module "vpc" {
   source  = "app.terraform.io/MEGAZONE-prod/vpc/aws"
-  version = "1.0.23"
+  version = "1.0.24"
 
   # vpc
   name                 = var.name
