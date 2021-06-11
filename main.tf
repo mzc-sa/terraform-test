@@ -18,7 +18,7 @@ module "security-group" {
   source  = "app.terraform.io/MEGAZONE-prod/security-group/aws"
   version = "1.0.4"
 
-  name            = var.sg_name
+  name            = var.name
   description     = var.description
   vpc_id          = data.aws_vpc.default.id
  
