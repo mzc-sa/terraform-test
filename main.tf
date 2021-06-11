@@ -8,7 +8,7 @@
 
 module "vpc" {
   #source  = "git::git@github.com/mzc-sa/terraform-aws-vpc.git//terraform-aws-vpc?ref=1.0.26" 
-  source  = "app.terraform.io/MEGAZONE-qa/vpc/aws"
+  source  = "app.terraform.io/MEGAZONE-live/vpc/aws"
   version = "1.0.27"
 
   # vpc
