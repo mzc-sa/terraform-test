@@ -28,11 +28,11 @@ variable "ingress_rules" {
   default     = []
 }
 
-# variable "ingress_with_cidr_blocks" {
-#   description = "List of ingress rules to create where 'cidr_blocks' is used"
-#   type        = list(map(string))
-#   default     = []
-# }
+variable "ingress_with_cidr_blocks" {
+  description = "List of ingress rules to create where 'cidr_blocks' is used"
+  type        = list(map(string))
+  default     = []
+}
 
 # variable "ingress_with_source_security_group_id" {
 #   description = "List of ingress rules to create where 'source_security_group_id' is used"
@@ -56,11 +56,11 @@ variable "egress_rules" {
   default     = []
 }
 
-# variable "egress_with_cidr_blocks" {
-#   description = "List of egress rules to create where 'cidr_blocks' is used"
-#   type        = list(map(string))
-#   default     = []
-# }
+variable "egress_with_cidr_blocks" {
+  description = "List of egress rules to create where 'cidr_blocks' is used"
+  type        = list(map(string))
+  default     = []
+}
 
 variable "egress_cidr_blocks" {
   description = "List of IPv4 CIDR ranges to use on all egress rules"
