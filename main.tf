@@ -30,7 +30,7 @@ module "security-group" {
   # Egress
   egress_rules             = var.egress_rules
   egress_cidr_blocks       = var.egress_cidr_blocks
-  egress_with_cidr_blocks  = var.egress_with_cidr_blocks
+#   egress_with_cidr_blocks  = var.egress_with_cidr_blocks
   
   # Tags
   tags = var.tags 
