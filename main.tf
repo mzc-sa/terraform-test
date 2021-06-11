@@ -15,7 +15,7 @@ data "aws_vpc" "default" {
 # Security Group
 ##################################################################
 module "security-group" {
-  source  = "app.terraform.io/MEGAZONE-prod/security-group/aws"
+  source  = "app.terraform.io/MEGAZONE-qa/security-group/aws"
   version = "1.0.4"
 
   name            = var.name
