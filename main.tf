@@ -22,10 +22,16 @@ module "security-group" {
   description     = var.description
   vpc_id          = data.aws_vpc.default.id
  
-  ingress_rules       = var.ingress_rules
-  ingress_cidr_blocks = var.ingress_cidr_blocks
-  egress_rules        = var.egress_rules
-  egress_cidr_blocks  = var.egress_cidr_blocks
+  # Ingress
+  ingress_rules            = var.ingress_rules
+  ingress_cidr_blocks      = var.ingress_cidr_blocks
+  ingress_with_cidr_blocks = var.ingress_with_cidr_blocks
   
+  # Egress
+  egress_rules             = var.egress_rules
+  egress_cidr_blocks       = var.egress_cidr_blocks
+  egress_with_cidr_blocks  = var.egress_with_cidr_blocks
+  
+  # Tags
   tags = var.tags 
 }
