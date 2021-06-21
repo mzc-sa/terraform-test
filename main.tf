@@ -4,7 +4,7 @@
 ############
 module "s3" {
   source  = "app.terraform.io/MEGAZONE-prod/s3/aws"
-  version = "1.0.1"
+  version = "1.0.4"
 
   bucket        = var.bucket
   acl           = "private"
