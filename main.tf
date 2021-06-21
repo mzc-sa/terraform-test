@@ -1,3 +1,19 @@
+data "aws_iam_policy_document" "bucket_policy" {
+  statement {
+    principals {
+      type        = "AWS"
+      identifiers = [aws_iam_role.this.arn]
+    }
+
+    actions = [
+      "s3:ListBucket",
+    ]
+
+    resources = [
+      "arn:aws:s3:::${local.bucket_name}",
+    ]
+  }
+}
 
 ############
 # S3 Bucket
@@ -12,6 +28,9 @@ module "s3" {
 
   versioning = var.versioning
 
+  attach_policy = var.attach_policy
+  policy        = data.aws_iam_policy_document.bucket_policy.json
+  
   # S3 bucket-level Public Access Block configuration
   block_public_acls       = true
   block_public_policy     = true
@@ -20,3 +39,4 @@ module "s3" {
 
   tags = var.tags
 }
+
