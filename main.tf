@@ -10,6 +10,8 @@ module "s3" {
   acl           = "private"
   force_destroy = true
 
+  versioning = var.versioning
+
   # S3 bucket-level Public Access Block configuration
   block_public_acls       = true
   block_public_policy     = true
