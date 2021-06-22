@@ -30,7 +30,8 @@ module "elb" {
   version = "1.0.3"
 
   name = "${var.name}-alb"
-
+  
+  internal           = var.internal
   load_balancer_type = var.load_balancer_type
 
   vpc_id             = var.vpc_id
