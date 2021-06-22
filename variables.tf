@@ -34,6 +34,12 @@ variable "subnets" {
   default     = null
 }
 
+variable "security_groups" {
+  description = "The security groups to attach to the load balancer. e.g. [\"sg-edcd9784\",\"sg-edcd9785\"]"
+  type        = list(string)
+  default     = []
+}
+
 variable "target_group_tags" {
   description = "A map of tags to add to all target groups"
   type        = map(string)
