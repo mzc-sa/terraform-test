@@ -40,6 +40,12 @@ variable "security_groups" {
   default     = []
 }
 
+variable "internal" {
+  description = "Boolean determining if the load balancer is internal or externally facing."
+  type        = bool
+  default     = false
+}
+
 variable "target_group_tags" {
   description = "A map of tags to add to all target groups"
   type        = map(string)
