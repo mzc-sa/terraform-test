@@ -29,7 +29,7 @@ module "elb" {
   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
   version = "1.0.3"
 
-  name = var.name
+  name = "${var.name}-alb"
 
   load_balancer_type = var.load_balancer_type
 
@@ -39,7 +39,7 @@ module "elb" {
 
   target_groups = [
     {
-      name_prefix      = "pref-"
+      name             = "${var.name}-tg"
       backend_protocol = "HTTP"
       backend_port     = 80
       target_type      = "instance"
