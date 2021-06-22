@@ -59,6 +59,19 @@ module "s3" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 
+  # Website 
+  website = {
+    index_document = "index.html"
+    error_document = "error.html"
+    routing_rules = jsonencode([{
+      Condition : {
+        KeyPrefixEquals : "docs/"
+      },
+      Redirect : {
+        ReplaceKeyPrefixWith : "documents/"
+      }
+    }])
+  
   tags = var.tags
 }
 
