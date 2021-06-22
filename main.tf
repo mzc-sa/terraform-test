@@ -52,12 +52,6 @@ module "s3" {
 
   attach_policy = var.attach_policy
   policy        = data.aws_iam_policy_document.bucket_policy.json
-  
-  # S3 bucket-level Public Access Block configuration
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
 
   # Website 
   website = {
@@ -71,7 +65,11 @@ module "s3" {
         ReplaceKeyPrefixWith : "documents/"
       }
     }])
+  }
   
-  tags = var.tags
+  # S3 bucket-level Public Access Block configuration
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
-
