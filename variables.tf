@@ -1,47 +1,54 @@
-variable "create_bucket" {
-  description = "Controls if S3 bucket should be created"
-  type        = bool
-  default     = true
-}
-
-variable "bucket" {
-  description = "(Optional, Forces new resource) The name of the bucket. If omitted, Terraform will assign a random, unique name."
+variable "name" {
+  description = "The resource name and Name tag of the load balancer."
   type        = string
   default     = null
 }
 
-variable "versioning" {
-  description = "Map containing versioning configuration."
+variable "name_prefix" {
+  description = "The resource name prefix and Name tag of the load balancer. Cannot be longer than 6 characters"
+  type        = string
+  default     = null
+}
+
+variable "load_balancer_type" {
+  description = "The type of load balancer to create. Possible values are application or network."
+  type        = string
+  default     = "application"
+}
+
+variable "http_tcp_listeners_tags" {
+  description = "A map of tags to add to all tcp listeners"
+  type        = map(string)
+  default     = {}
+}
+
+variable "vpc_id" {
+  description = "VPC id where the load balancer and other resources will be deployed."
+  type        = string
+  default     = null
+}
+
+variable "subnets" {
+  description = "A list of subnets to associate with the load balancer. e.g. ['subnet-1a2b3c4d','subnet-1a2b3c4e','subnet-1a2b3c4f']"
+  type        = list(string)
+  default     = null
+}
+
+variable "target_group_tags" {
+  description = "A map of tags to add to all target groups"
+  type        = map(string)
+  default     = {}
+}
+
+variable "lb_tags" {
+  description = "A map of tags to add to load balancer"
   type        = map(string)
   default     = {}
 }
 
 variable "tags" {
-  description = "(Optional) A mapping of tags to assign to the bucket."
+  description = "A map of tags to add to all resources"
   type        = map(string)
   default     = {}
 }
 
-variable "block_public_acls" {
-  description = "Whether Amazon S3 should block public ACLs for this bucket."
-  type        = bool
-  default     = false
-}
-
-variable "block_public_policy" {
-  description = "Whether Amazon S3 should block public bucket policies for this bucket."
-  type        = bool
-  default     = false
-}
-
-variable "ignore_public_acls" {
-  description = "Whether Amazon S3 should ignore public ACLs for this bucket."
-  type        = bool
-  default     = false
-}
-
-variable "restrict_public_buckets" {
-  description = "Whether Amazon S3 should restrict public bucket policies for this bucket."
-  type        = bool
-  default     = false
-}

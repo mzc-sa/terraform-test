@@ -1,22 +1,70 @@
+##################################################################
+# Data sources to get VPC and subnets
+##################################################################
+#data "aws_vpc" "default" {
+#  tags = {
+#    Terraform = "true"
+#  }
+#}
+#
+#data "aws_subnet_ids" "all" {
+#  vpc_id = data.aws_vpc.default.id
+#
+#  tags = {
+#    Tier      = "public"
+#    Terraform = "true"
+#  }
+#}
+#
+#data "aws_security_group" "default" {
+#  vpc_id = data.aws_vpc.default.id
+#  name   = "default"
+#}
+
 
 ############
-# S3 Bucket
+# ELB
 ############
-module "s3" {
-  source  = "app.terraform.io/MEGAZONE-prod/s3/aws"
-  version = "1.0.0"
+module "elb" {
+  source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
+  version = "1.0.3"
 
-  bucket        = var.bucket
-  acl           = "private"
-  force_destroy = true
+  name = var.name
 
-  versioning = var.versioning
+  load_balancer_type = var.load_balancer_type
 
-  # S3 bucket-level Public Access Block configuration
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+  vpc_id             = var.vpc_id
+  subnets            = var.subnets 
+  security_groups    = var.security_groups
+
+  target_groups = [
+    {
+      name_prefix      = "pref-"
+      backend_protocol = "HTTP"
+      backend_port     = 80
+      target_type      = "instance"
+      deregistration_delay = 10
+      health_check = {
+        enabled             = true
+        interval            = 30
+        path                = "/"
+        port                = "traffic-port"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+        protocol            = "HTTP"
+        matcher             = "200"
+      }
+    }
+  ]
+
+  http_tcp_listeners = [
+    {
+      port        = 80
+      protocol    = "HTTP"
+      target_group_index = 0
+    }
+  ]
 
   tags = var.tags
 }
