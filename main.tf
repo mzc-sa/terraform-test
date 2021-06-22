@@ -67,4 +67,6 @@ module "elb" {
   ]
 
   tags = var.tags
+  lb_tags = var.lb_tags
+
 }
