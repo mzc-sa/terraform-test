@@ -31,7 +31,7 @@ data "aws_subnet_ids" "private" {
 ################
 locals {
   vpc_id          = ( var.vpc_id == true  ? var.vpc_id : data.aws_vpc.default.id  )
-  public_subnets  = ( var.subnets != "" && var.internal == false ? var.subnets : data.aws_subnet_ids.public.ids )
+  public_subnets  = ( var.subnets != null && var.internal == false ? var.subnets : data.aws_subnet_ids.public.ids )
 #  private_subnets = ( var.internal == true ? var.subnets : data.aws_subnet_ids.private.ids )
 #   subnets = ( var.internal == false ? data.aws_subnet_ids.public.ids : data.aws_subnet_ids.private.ids )
  
