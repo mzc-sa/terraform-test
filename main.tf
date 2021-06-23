@@ -39,8 +39,8 @@ resource "aws_security_group" "http" {
 # Local Variable
 ###################
 locals {
-  vpc_id          = ( data.aws_vpc.default.id == true  ? data.aws_vpc.default.id : var.vpc_id )
-  subnets         = ( data.aws_subnet_ids.public.ids == true ? data.aws_subnet_ids.public.ids : var.subnets )
+  vpc_id          = ( var.vpc_id == true  ? var.vpc_id : data.aws_vpc.default.id  )
+  subnets         = ( var.subnets == true ? var.subnets : data.aws_subnet_ids.public.ids )
 #   security_groups = ( var.security_groups == true ? aws_security_group.http.id : var.security_groups )
   depends_on = [
     data.aws_vpc.default.id,
@@ -98,9 +98,4 @@ module "elb" {
 
   tags = var.tags
   lb_tags = var.lb_tags
-
-  depends_on = [
-    local.vpc_id,
-    local.subnets
-  ]
 }
