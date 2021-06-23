@@ -48,13 +48,14 @@ module "elb" {
   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
   version = "1.0.3"
 
-  name = "${var.name}-alb"
+  for_each =  var.internal == false ? local.public_subnets : local.private_subnets
   
+  name               = "${var.name}-alb"
   internal           = var.internal
   load_balancer_type = var.load_balancer_type
 
   vpc_id             = local.vpc_id
-  subnets            = local.public_subnets
+  subnets            = each.value
   security_groups    = [aws_security_group.http.id]
 
   target_groups = [
