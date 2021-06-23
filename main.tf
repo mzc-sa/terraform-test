@@ -25,14 +25,11 @@ data "aws_subnet_ids" "private" {
   }
 }
 
-data "aws_security_group" "default" {
+resource "aws_security_group" "http" {
+  name   = "${var.name}-web-sg"
   vpc_id = data.aws_vpc.default.id
-  
-  tags = {
-    Name = "*-alb"
-    Environment = "*"
-  }
 }
+
 
 
 ############
@@ -51,7 +48,8 @@ module "elb" {
 #   vpc_id             = var.vpc_id
   subnets            = data.aws_subnet_ids.public.ids
   #subnets            = var.subnets
-  security_groups    = var.security_groups
+  security_groups    = [aws_security_group.http.id]
+  #security_groups    = var.security_groups
 
   target_groups = [
     {
