@@ -22,9 +22,13 @@ data "aws_subnet_ids" "public" {
 ################
 locals {
   vpc_id  = ( var.vpc_id == true  ? var.vpc_id : data.aws_vpc.default.id  )
-  subnets = data.aws_subnet_ids.public.ids
-#   subnets = ( var.subnets != [] ? var.subnets : data.aws_subnet_ids.public.ids )
+#   subnets = data.aws_subnet_ids.public.ids
+  subnets = ( var.subnets != [] ? var.subnets : data.aws_subnet_ids.public.ids )
 
+  depends_on = [
+    data.aws_vpc.default.id
+    data.aws_subnet_ids.public.id
+  ]  
 }
 
 
