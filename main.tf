@@ -38,6 +38,7 @@ locals {
   depends_on = [
     data.aws_vpc.default.id,
     data.aws_subnet_ids.public.ids
+    data.aws_subnet_ids.private.ids
   ]
 }
 
@@ -54,7 +55,7 @@ module "elb" {
   load_balancer_type = var.load_balancer_type
 
   vpc_id             = local.vpc_id
-  subnets            = local.subnets
+  subnets            = ( var.subnets = true ? local.subnets : null ) 
   security_groups    = [aws_security_group.http.id]
 
   target_groups = [
