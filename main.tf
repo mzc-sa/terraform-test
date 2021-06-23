@@ -1,4 +1,21 @@
 ##################################################################
+# Local Variable
+##################################################################
+locals {
+  vpc_id          = ( data.aws_vpc.default.id == true  ? data.aws_vpc.default.id : var.vpc_id )
+  subnets         = ( data.aws_subnet_ids.public.ids == true ? data.aws_subnet_ids.public.ids : var.subnets )
+  security_groups = ( var.security_groups == true ? aws_security_group.http.id : var.security_groups )
+}
+
+  vpc_id             = data.aws_vpc.default.id
+#   vpc_id             = var.vpc_id
+  subnets            = data.aws_subnet_ids.public.ids
+  #subnets            = var.subnets
+  security_groups    = [aws_security_group.http.id]
+  #security_groups    = var.security_groups
+
+
+##################################################################
 # Data sources to get VPC and subnets
 ##################################################################
 data "aws_vpc" "default" {
@@ -28,6 +45,10 @@ data "aws_subnet_ids" "private" {
 resource "aws_security_group" "http" {
   name   = "${var.name}-web-sg"
   vpc_id = data.aws_vpc.default.id
+  
+  tags = {
+    Name = "${var.name}-web-sg"
+  }
 }
 
 
@@ -44,12 +65,12 @@ module "elb" {
   internal           = var.internal
   load_balancer_type = var.load_balancer_type
 
-  vpc_id             = data.aws_vpc.default.id
-#   vpc_id             = var.vpc_id
-  subnets            = data.aws_subnet_ids.public.ids
-  #subnets            = var.subnets
-  security_groups    = [aws_security_group.http.id]
-  #security_groups    = var.security_groups
+#  vpc_id             = data.aws_vpc.default.id
+   vpc_id             = local.vpc_id
+#  subnets            = data.aws_subnet_ids.public.ids
+  subnets            = local.subnets
+#  security_groups    = [aws_security_group.http.id]
+  security_groups    = local.security_groups
 
   target_groups = [
     {
