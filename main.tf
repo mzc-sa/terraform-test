@@ -48,7 +48,7 @@ module "elb" {
   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
   version = "1.0.3"
 
-  for_each =  var.internal == false ? local.public_subnets : local.private_subnets
+  for_each =  var.internal == false ? toset(local.public_subnets) : toset(local.private_subnets)
   
   name               = "${var.name}-alb"
   internal           = var.internal
