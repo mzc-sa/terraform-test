@@ -4,7 +4,7 @@
 data "aws_vpc" "default" {
   filter {
     name = "tag:Environment"
-    #values = ["*"]
+    values = [*]
   }
 }
 #
