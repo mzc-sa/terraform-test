@@ -11,7 +11,8 @@ data "aws_subnet_ids" "public" {
   vpc_id = data.aws_vpc.default.id
 
   tags = {
-    Tier = "public"
+    Tier        = "public"
+    Environment = "*"
   }
 }
 
@@ -19,7 +20,8 @@ data "aws_subnet_ids" "private" {
   vpc_id = data.aws_vpc.default.id
 
   tags = {
-    Tier = "private"
+    Tier        = "private"
+    Environment = "*"
   }
 }
 
@@ -28,6 +30,7 @@ data "aws_security_group" "default" {
   
   tags = {
     Name = "*-alb"
+    Environment = "*"
   }
 }
 
