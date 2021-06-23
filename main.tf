@@ -62,7 +62,7 @@ module "elb" {
 #  subnets            = data.aws_subnet_ids.public.ids
   subnets            = local.subnets
 #  security_groups    = [aws_security_group.http.id]
-  security_groups    = local.security_groups
+  security_groups    = [local.security_groups]
 
   target_groups = [
     {
