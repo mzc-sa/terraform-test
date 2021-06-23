@@ -34,7 +34,8 @@ module "elb" {
   internal           = var.internal
   load_balancer_type = var.load_balancer_type
 
-  vpc_id             = var.vpc_id
+  vpc_id             = data.aws_vpc.default.id
+#   vpc_id             = var.vpc_id
   subnets            = var.subnets 
   security_groups    = var.security_groups
 
