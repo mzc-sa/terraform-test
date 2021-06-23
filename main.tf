@@ -4,7 +4,7 @@
 locals {
   vpc_id          = ( data.aws_vpc.default.id == true  ? data.aws_vpc.default.id : var.vpc_id )
   subnets         = ( data.aws_subnet_ids.public.ids == true ? data.aws_subnet_ids.public.ids : var.subnets )
-  security_groups = ( var.security_groups == true ? aws_security_group.http.id : var.security_groups )
+#   security_groups = ( var.security_groups == true ? aws_security_group.http.id : var.security_groups )
 }
 
 
@@ -61,8 +61,7 @@ module "elb" {
    vpc_id             = local.vpc_id
 #  subnets            = data.aws_subnet_ids.public.ids
   subnets            = local.subnets
-#  security_groups    = [aws_security_group.http.id]
-  security_groups    = [local.security_groups]
+  security_groups    = [aws_security_group.http.id]
 
   target_groups = [
     {
