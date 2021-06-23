@@ -6,16 +6,23 @@ data "aws_vpc" "default" {
     Environment = "*"
   }
 }
-#Environment
-#data "aws_subnet_ids" "all" {
-#  vpc_id = data.aws_vpc.default.id
-#
-#  tags = {
-#    Tier      = "public"
-#    Terraform = "true"
-#  }
-#}
-#
+
+data "aws_subnet_ids" "public" {
+  vpc_id = data.aws_vpc.default.id
+
+  tags = {
+    Tier = "public"
+  }
+}
+
+data "aws_subnet_ids" "private" {
+  vpc_id = data.aws_vpc.default.id
+
+  tags = {
+    Tier = "private"
+  }
+}
+
 #data "aws_security_group" "default" {
 #  vpc_id = data.aws_vpc.default.id
 #  name   = "default"
@@ -36,7 +43,8 @@ module "elb" {
 
   vpc_id             = data.aws_vpc.default.id
 #   vpc_id             = var.vpc_id
-  subnets            = var.subnets 
+  subnets            = data.aws_subnet_ids.public.ids
+  #subnets            = var.subnets
   security_groups    = var.security_groups
 
   target_groups = [
