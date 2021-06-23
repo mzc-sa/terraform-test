@@ -55,7 +55,7 @@ module "elb" {
   load_balancer_type = var.load_balancer_type
 
   vpc_id             = local.vpc_id
-  subnets            = var.public_subnets
+  subnets            = local.public_subnets
   security_groups    = [aws_security_group.http.id]
 
   target_groups = [
