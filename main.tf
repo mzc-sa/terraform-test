@@ -1,20 +1,6 @@
-##################################################################
-# Local Variable
-##################################################################
-locals {
-  vpc_id          = ( data.aws_vpc.default.id == true  ? data.aws_vpc.default.id : var.vpc_id )
-  subnets         = ( data.aws_subnet_ids.public.ids == true ? data.aws_subnet_ids.public.ids : var.subnets )
-#   security_groups = ( var.security_groups == true ? aws_security_group.http.id : var.security_groups )
-  depends_on = [
-    data.aws_vpc.default.id,
-    data.aws_subnet_ids.public.ids
-  ]
-}
-
-
-##################################################################
+#######################################
 # Data sources to get VPC and subnets
-##################################################################
+#######################################
 data "aws_vpc" "default" {
   tags = {
     Environment = "*"
@@ -46,6 +32,20 @@ resource "aws_security_group" "http" {
   tags = {
     Name = "${var.name}-web-sg"
   }
+}
+
+
+###################
+# Local Variable
+###################
+locals {
+  vpc_id          = ( data.aws_vpc.default.id == true  ? data.aws_vpc.default.id : var.vpc_id )
+  subnets         = ( data.aws_subnet_ids.public.ids == true ? data.aws_subnet_ids.public.ids : var.subnets )
+#   security_groups = ( var.security_groups == true ? aws_security_group.http.id : var.security_groups )
+  depends_on = [
+    data.aws_vpc.default.id,
+    data.aws_subnet_ids.public.ids
+  ]
 }
 
 
