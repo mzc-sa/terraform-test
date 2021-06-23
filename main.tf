@@ -1,11 +1,12 @@
 ##################################################################
 # Data sources to get VPC and subnets
 ##################################################################
-#data "aws_vpc" "default" {
-#  tags = {
-#    Terraform = "true"
-#  }
-#}
+data "aws_vpc" "default" {
+  filter {
+    name = "tag:Environment"
+    #values = ["*"]
+  }
+}
 #
 #data "aws_subnet_ids" "all" {
 #  vpc_id = data.aws_vpc.default.id
