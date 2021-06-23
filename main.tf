@@ -31,8 +31,9 @@ data "aws_subnet_ids" "private" {
 ################
 locals {
   vpc_id          = ( var.vpc_id == true  ? var.vpc_id : data.aws_vpc.default.id  )
-  public_subnets  = ( var.subnets == true && var.internal == false ? var.subnets : data.aws_subnet_ids.public.ids )
-  private_subnets = ( var.subnets == true && var.internal == true ? var.subnets : data.aws_subnet_ids.private.ids )
+#   public_subnets  = ( var.internal == false ? var.subnets : data.aws_subnet_ids.public.ids )
+#   private_subnets = ( var.internal == true ? var.subnets : data.aws_subnet_ids.private.ids )
+  subnets = ( var.internal == false ? data.aws_subnet_ids.public.ids : data.aws_subnet_ids.private.ids )
  
   depends_on = [
     data.aws_vpc.default.id,
@@ -53,7 +54,7 @@ module "elb" {
   load_balancer_type = var.load_balancer_type
 
   vpc_id             = local.vpc_id
-  subnets            = local.public_subnets
+  subnets            = local.subnets
   security_groups    = [aws_security_group.http.id]
 
   target_groups = [
