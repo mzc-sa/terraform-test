@@ -22,7 +22,7 @@ data "aws_subnet_ids" "public" {
 ################
 locals {
   vpc_id  = ( var.vpc_id == true  ? var.vpc_id : data.aws_vpc.default.id  )
-  subnets = ( var.subnets == true ? var.subnets : data.aws_subnet_ids.public.ids )
+  subnets = ( var.subnets != [] ? var.subnets : data.aws_subnet_ids.public.ids )
  
   depends_on = [
     data.aws_vpc.default.id,
@@ -80,10 +80,10 @@ module "elb" {
 }
   
 resource "aws_security_group" "http" {
-  name   = "${var.name}-web-sg"
+  name   = "${var.name}-sg"
   vpc_id = data.aws_vpc.default.id
   
   tags = {
-    Name = "${var.name}-web-sg"
+    Name = "${var.name}-sg"
   }
 }
