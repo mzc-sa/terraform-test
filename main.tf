@@ -26,7 +26,7 @@ locals {
   subnets = ( var.subnets != [] ? var.subnets : data.aws_subnet_ids.public.ids )
 
   depends_on = [
-    data.aws_vpc.default.id
+    data.aws_vpc.default.id,
     data.aws_subnet_ids.public.id
   ]  
 }
