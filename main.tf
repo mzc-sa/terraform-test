@@ -7,13 +7,6 @@ locals {
   security_groups = ( var.security_groups == true ? aws_security_group.http.id : var.security_groups )
 }
 
-  vpc_id             = data.aws_vpc.default.id
-#   vpc_id             = var.vpc_id
-  subnets            = data.aws_subnet_ids.public.ids
-  #subnets            = var.subnets
-  security_groups    = [aws_security_group.http.id]
-  #security_groups    = var.security_groups
-
 
 ##################################################################
 # Data sources to get VPC and subnets
@@ -50,7 +43,6 @@ resource "aws_security_group" "http" {
     Name = "${var.name}-web-sg"
   }
 }
-
 
 
 ############
