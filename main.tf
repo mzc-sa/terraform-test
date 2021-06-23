@@ -80,7 +80,7 @@ module "elb" {
  
   depends_on = [
     data.aws_vpc.default.id,
-    data.aws_subnet_ids.public.ids,
+    data.aws_subnet_ids.public.ids
   ]
 }
   
