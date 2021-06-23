@@ -74,8 +74,8 @@ module "elb" {
   lb_tags = var.lb_tags
 
   depends_on = [
-    data.aws_vpc.default.id,
-    data.aws_subnet_ids.public.ids
+    local.vpc_id,
+    local.subnets
   ]
 }
   
