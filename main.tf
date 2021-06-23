@@ -1,6 +1,6 @@
-#######################################
-# Data sources to get VPC and subnets
-#######################################
+###############
+# Data sources 
+###############
 data "aws_vpc" "default" {
   tags = {
     Environment = "*"
@@ -25,19 +25,10 @@ data "aws_subnet_ids" "private" {
   }
 }
 
-resource "aws_security_group" "http" {
-  name   = "${var.name}-web-sg"
-  vpc_id = data.aws_vpc.default.id
-  
-  tags = {
-    Name = "${var.name}-web-sg"
-  }
-}
 
-
-###################
+################
 # Local Variable
-###################
+################
 locals {
   vpc_id          = ( var.vpc_id == true  ? var.vpc_id : data.aws_vpc.default.id  )
   subnets         = ( var.subnets == true ? var.subnets : data.aws_subnet_ids.public.ids )
@@ -50,7 +41,7 @@ locals {
 
 
 ############
-# ELB
+# ELB Module
 ############
 module "elb" {
   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
@@ -98,4 +89,13 @@ module "elb" {
 
   tags = var.tags
   lb_tags = var.lb_tags
+}
+  
+resource "aws_security_group" "http" {
+  name   = "${var.name}-web-sg"
+  vpc_id = data.aws_vpc.default.id
+  
+  tags = {
+    Name = "${var.name}-web-sg"
+  }
 }
