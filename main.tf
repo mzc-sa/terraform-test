@@ -95,7 +95,7 @@ module "elb_auto" {
   version = "1.0.3"
 
     
-  count = var.vpc_id == null || var.subnets == null ? 1 : 0
+  count = var.vpc_id == null && var.subnets == null ? 1 : 0
   
   name               = "${var.name}-alb"
   internal           = var.internal
