@@ -19,10 +19,10 @@ data "aws_subnet_ids" "public" {
 ################
 # Local Variable
 ################
-locals {
-  vpc_id  = data.aws_vpc.default.id
-  subnets = data.aws_subnet_ids.public.ids
-}
+# locals {
+#   vpc_id  = data.aws_vpc.default.id
+#   subnets = data.aws_subnet_ids.public.ids
+# }
 
 ############
 # ELB Module
@@ -36,6 +36,7 @@ resource "aws_security_group" "http" {
   }
 }
 
+# 
 module "elb_manual" {
   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
   version = "1.0.3"
@@ -93,8 +94,10 @@ module "elb_auto" {
   internal           = var.internal
   load_balancer_type = var.load_balancer_type
 
-  vpc_id             = local.vpc_id
-  subnets            = local.subnets
+#   vpc_id             = local.vpc_id
+#   subnets            = local.subnets
+  vpc_id             = data.aws_vpc.default.id
+  subnets            = data.aws_subnet_ids.public.ids
   security_groups    = [aws_security_group.http.id]
 
   target_groups = [
@@ -128,10 +131,4 @@ module "elb_auto" {
 
   tags = var.tags
   lb_tags = var.lb_tags
-  
-#   depends_on = [
-#     local.vpc_id,
-#     local.subnets
-#   ]
-  
 }  
