@@ -16,13 +16,6 @@ data "aws_subnet_ids" "public" {
   }
 }
 
-################
-# Local Variable
-################
-# locals {
-#   vpc_id  = data.aws_vpc.default.id
-#   subnets = data.aws_subnet_ids.public.ids
-# }
 
 ############
 # ELB Module
@@ -94,8 +87,6 @@ module "elb_auto" {
   internal           = var.internal
   load_balancer_type = var.load_balancer_type
 
-#   vpc_id             = local.vpc_id
-#   subnets            = local.subnets
   vpc_id             = data.aws_vpc.default.id
   subnets            = data.aws_subnet_ids.public.ids
   security_groups    = [aws_security_group.http.id]
