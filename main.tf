@@ -17,20 +17,6 @@ data "aws_subnet_ids" "public" {
 }
 
 
-################
-# Local Variable
-################
-# locals {
-# #   vpc_id  = ( var.vpc_id == true  ? var.vpc_id : data.aws_vpc.default.id )
-# #   subnets = ( var.subnets == true ? var.subnets : data.aws_subnet_ids.public.ids )
-
-#   depends_on = [
-#     data.aws_vpc.default.id,
-#     data.aws_subnet_ids.public.id
-#   ]  
-# }
-
-
 ############
 # ELB Module
 ############
@@ -94,8 +80,7 @@ module "elb_auto" {
   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
   version = "1.0.3"
 
-    
-  count = var.vpc_id == null && var.subnets == null ? 1 : 0
+  count = var.vpc_id != null || var.subnets != null ? 0 : 1
   
   name               = "${var.name}-alb"
   internal           = var.internal
@@ -136,4 +121,10 @@ module "elb_auto" {
 
   tags = var.tags
   lb_tags = var.lb_tags
+  
+  depends_on = [
+    data.aws_vpc.default.id,
+    data.aws_subnet_ids.public.id
+  ]
+  
 }  
