@@ -129,9 +129,9 @@ module "elb_auto" {
   tags = var.tags
   lb_tags = var.lb_tags
   
-  depends_on = [
-    local.vpc_id,
-    local.subnets
-  ]
+#   depends_on = [
+#     local.vpc_id,
+#     local.subnets
+#   ]
   
 }  
