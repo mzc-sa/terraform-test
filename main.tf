@@ -101,7 +101,7 @@ module "elb_auto" {
   internal           = var.internal
   load_balancer_type = var.load_balancer_type
 
-  vpc_id             = data.aws_vpc.default.vpc_id
+  vpc_id             = data.aws_vpc.default.id
   subnets            = data.aws_subnet_ids.public.ids
   security_groups    = [aws_security_group.http.id]
 
