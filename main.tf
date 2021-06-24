@@ -87,7 +87,7 @@ module "elb_auto" {
   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
   version = "1.0.3"
 
-  count = var.vpc_id == "" && var.subnets == [] ? 1 : 0
+  count = var.vpc_id == " " && var.subnets == [] ? 1 : 0
   
   name               = "${var.name}-alb"
   internal           = var.internal
