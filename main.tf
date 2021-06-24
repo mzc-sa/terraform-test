@@ -121,10 +121,4 @@ module "elb_auto" {
 
   tags = var.tags
   lb_tags = var.lb_tags
-  
-  depends_on = [
-    data.aws_vpc.default.id,
-    data.aws_subnet_ids.public.id
-  ]
-  
 }  
