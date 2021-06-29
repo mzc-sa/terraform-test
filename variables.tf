@@ -46,6 +46,12 @@ variable "internal" {
   default     = false
 }
 
+variable "certificate_arn" {
+  description = "AWS SSL certificate to add to HTTPS listener."
+  type = string
+  default = null
+}
+
 variable "target_group_tags" {
   description = "A map of tags to add to all target groups"
   type        = map(string)
