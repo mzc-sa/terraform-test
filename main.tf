@@ -80,8 +80,8 @@ module "elb_manual" {
 
 # Data Source Subnets
 module "elb_auto" {
-  source  = "app.terraform.io/{{ organization }}/elb/aws"
-  version = "{{ version }}"
+  source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
+  version = "1.0.3"
 
   count = var.vpc_id != " " && var.subnets != [] ? 0 : 1
   
