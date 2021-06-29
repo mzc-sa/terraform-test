@@ -69,7 +69,7 @@ module "elb_manual" {
     {
       port               = 443
       protocol           = "HTTPS"
-      certificate_arn    = "arn:aws:acm:ap-northeast-2:051542137113:certificate/ee818fe6-affc-44ca-80f3-d538f863fe9a"
+      certificate_arn    = var.certificate_arn
       target_group_index = 0
     }
   ]
@@ -118,7 +118,7 @@ module "elb_auto" {
     {
       port               = 443
       protocol           = "HTTPS"
-      certificate_arn    = "arn:aws:acm:ap-northeast-2:051542137113:certificate/ee818fe6-affc-44ca-80f3-d538f863fe9a"
+      certificate_arn    = var.certificate_arn
       target_group_index = 0
     }
   ]
