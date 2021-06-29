@@ -7,19 +7,19 @@ data "aws_vpc" "default" {
   }
 }
 
-data "aws_subnet_ids" "private" {
+data "aws_subnet_ids" "public" {
   vpc_id = data.aws_vpc.default.id
 
   tags = {
-    Tier        = "private"
+    Tier        = "public"
     Environment = "*"
   }
 }
 
 
-#############
+############
 # ELB Module
-#############
+############
 resource "aws_security_group" "http" {
   name   = "${var.name}-sg"
   vpc_id = data.aws_vpc.default.id
@@ -29,7 +29,7 @@ resource "aws_security_group" "http" {
   }
 }
 
-# 
+# Custom Subnets 
 module "elb_manual" {
   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
   version = "1.0.3"
@@ -65,10 +65,11 @@ module "elb_manual" {
     }
   ]
 
-  http_tcp_listeners = [
+  https_listeners = [
     {
-      port        = 80
-      protocol    = "HTTP"
+      port               = 443
+      protocol           = "HTTPS"
+      certificate_arn    = "arn:aws:acm:ap-northeast-2:051542137113:certificate/ee818fe6-affc-44ca-80f3-d538f863fe9a"
       target_group_index = 0
     }
   ]
@@ -77,9 +78,10 @@ module "elb_manual" {
   lb_tags = var.lb_tags
 }
 
+# Data Source Subnets
 module "elb_auto" {
-  source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
-  version = "1.0.3"
+  source  = "app.terraform.io/{{ organization }}/elb/aws"
+  version = "{{ version }}"
 
   count = var.vpc_id != " " && var.subnets != [] ? 0 : 1
   
@@ -88,7 +90,7 @@ module "elb_auto" {
   load_balancer_type = var.load_balancer_type
 
   vpc_id             = data.aws_vpc.default.id
-  subnets            = data.aws_subnet_ids.private.ids
+  subnets            = data.aws_subnet_ids.public.ids
   security_groups    = [aws_security_group.http.id]
 
   target_groups = [
@@ -112,17 +114,147 @@ module "elb_auto" {
     }
   ]
 
-  http_tcp_listeners = [
+  https_listeners = [
     {
-      port        = 80
-      protocol    = "HTTP"
+      port               = 443
+      protocol           = "HTTPS"
+      certificate_arn    = "arn:aws:acm:ap-northeast-2:051542137113:certificate/ee818fe6-affc-44ca-80f3-d538f863fe9a"
       target_group_index = 0
     }
   ]
 
   tags = var.tags
   lb_tags = var.lb_tags
-}  
+} 
+
+
+###################################### Internal ALB (HTTP) 
+
+# ###############
+# # Data sources 
+# ###############
+# data "aws_vpc" "default" {
+#   tags = {
+#     Environment = "*"
+#   }
+# }
+
+# data "aws_subnet_ids" "private" {
+#   vpc_id = data.aws_vpc.default.id
+
+#   tags = {
+#     Tier        = "private"
+#     Environment = "*"
+#   }
+# }
+
+
+# #############
+# # ELB Module
+# #############
+# resource "aws_security_group" "http" {
+#   name   = "${var.name}-sg"
+#   vpc_id = data.aws_vpc.default.id
+  
+#   tags = {
+#     Name = "${var.name}-sg"
+#   }
+# }
+
+# # 
+# module "elb_manual" {
+#   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
+#   version = "1.0.3"
+  
+#   count = var.vpc_id != " " && var.subnets != [] ? 1 : 0
+  
+#   name               = "${var.name}-alb"
+#   internal           = var.internal
+#   load_balancer_type = var.load_balancer_type
+
+#   vpc_id             = var.vpc_id
+#   subnets            = var.subnets
+#   security_groups    = [aws_security_group.http.id]
+
+#   target_groups = [
+#     {
+#       name             = "${var.name}-tg"
+#       backend_protocol = "HTTP"
+#       backend_port     = 80
+#       target_type      = "instance"
+#       deregistration_delay = 10
+#       health_check = {
+#         enabled             = true
+#         interval            = 30
+#         path                = "/"
+#         port                = "traffic-port"
+#         healthy_threshold   = 3
+#         unhealthy_threshold = 3
+#         timeout             = 6
+#         protocol            = "HTTP"
+#         matcher             = "200"
+#       }
+#     }
+#   ]
+
+#   http_tcp_listeners = [
+#     {
+#       port        = 80
+#       protocol    = "HTTP"
+#       target_group_index = 0
+#     }
+#   ]
+
+#   tags = var.tags
+#   lb_tags = var.lb_tags
+# }
+
+# module "elb_auto" {
+#   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
+#   version = "1.0.3"
+
+#   count = var.vpc_id != " " && var.subnets != [] ? 0 : 1
+  
+#   name               = "${var.name}-alb"
+#   internal           = var.internal
+#   load_balancer_type = var.load_balancer_type
+
+#   vpc_id             = data.aws_vpc.default.id
+#   subnets            = data.aws_subnet_ids.private.ids
+#   security_groups    = [aws_security_group.http.id]
+
+#   target_groups = [
+#     {
+#       name             = "${var.name}-tg"
+#       backend_protocol = "HTTP"
+#       backend_port     = 80
+#       target_type      = "instance"
+#       deregistration_delay = 10
+#       health_check = {
+#         enabled             = true
+#         interval            = 30
+#         path                = "/"
+#         port                = "traffic-port"
+#         healthy_threshold   = 3
+#         unhealthy_threshold = 3
+#         timeout             = 6
+#         protocol            = "HTTP"
+#         matcher             = "200"
+#       }
+#     }
+#   ]
+
+#   http_tcp_listeners = [
+#     {
+#       port        = 80
+#       protocol    = "HTTP"
+#       target_group_index = 0
+#     }
+#   ]
+
+#   tags = var.tags
+#   lb_tags = var.lb_tags
+# }  
 
 
 
