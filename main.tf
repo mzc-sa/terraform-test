@@ -49,7 +49,7 @@ module "elb_manual" {
         healthy_threshold   = 3
         unhealthy_threshold = 3
         timeout             = 6
-        matcher             = "200"
+#         matcher             = "200"
         protocol            = "HTTP"
       }
     }
@@ -96,7 +96,7 @@ module "elb_auto" {
         healthy_threshold   = 3
         unhealthy_threshold = 3
         timeout             = 6
-        matcher             = "200"
+#         matcher             = "200"
         protocol            = "HTTP"         = 10
       }
     }
