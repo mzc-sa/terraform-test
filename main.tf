@@ -27,7 +27,7 @@ module "elb_manual" {
   
   count = var.vpc_id != " " && var.subnets != [] ? 1 : 0
   
-  name               = "${var.name}-alb"
+  name               = "${var.name}-nlb"
   internal           = var.internal
   load_balancer_type = var.load_balancer_type
 
@@ -74,7 +74,7 @@ module "elb_auto" {
 
   count = var.vpc_id != " " && var.subnets != [] ? 0 : 1
   
-  name               = "${var.name}-alb"
+  name               = "${var.name}-nlb"
   internal           = var.internal
   load_balancer_type = var.load_balancer_type
 
