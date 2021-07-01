@@ -39,7 +39,7 @@ module "elb_manual" {
       name             = "${var.name}-tg"
       backend_protocol = "TCP"
       backend_port     = 80
-      target_type      = "instance"
+      target_type      = "ip"
 #       deregistration_delay = 10
 #       health_check = {
 #         enabled             = true
@@ -83,7 +83,7 @@ module "elb_auto" {
       name             = "${var.name}-tg"
       backend_protocol = "TCP"
       backend_port     = 80
-      target_type      = "instance"
+      target_type      = "ip"
 #       deregistration_delay = 10
 #       health_check = {
 #         enabled             = true
