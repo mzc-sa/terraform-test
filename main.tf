@@ -20,15 +20,6 @@ data "aws_subnet_ids" "private" {
 #############
 # ELB Module
 #############
-resource "aws_security_group" "http" {
-  name   = "${var.name}-sg"
-  vpc_id = data.aws_vpc.default.id
-  
-  tags = {
-    Name = "${var.name}-sg"
-  }
-}
-
 # Custom Subnets
 module "elb_manual" {
   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
@@ -42,7 +33,6 @@ module "elb_manual" {
 
   vpc_id             = var.vpc_id
   subnets            = var.subnets
-  security_groups    = [aws_security_group.http.id]
 
   target_groups = [
     {
@@ -90,7 +80,6 @@ module "elb_auto" {
 
   vpc_id             = data.aws_vpc.default.id
   subnets            = data.aws_subnet_ids.private.ids
-  security_groups    = [aws_security_group.http.id]
 
   target_groups = [
     {
