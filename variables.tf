@@ -61,7 +61,7 @@ variable "target_group_tags" {
 variable "lb_tags" {
   description = "A map of tags to add to load balancer"
   type        = map(string)
-  default     = {}
+  default     = { LoadBalancer = "nlb" }
 }
 
 variable "tags" {
