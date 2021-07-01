@@ -39,7 +39,7 @@ module "elb_manual" {
       name             = "${var.name}-tg"
       backend_protocol = "TCP"
       backend_port     = 80
-      target_type      = "ip"
+      target_type      = "instance"
       deregistration_delay = 10
       health_check = {
         enabled             = true
@@ -49,8 +49,6 @@ module "elb_manual" {
         healthy_threshold   = 3
         unhealthy_threshold = 3
         timeout             = 6
-#         matcher             = "200"
-        protocol            = "HTTP"
       }
     }
   ]
@@ -86,7 +84,7 @@ module "elb_auto" {
       name             = "${var.name}-tg"
       backend_protocol = "TCP"
       backend_port     = 80
-      target_type      = "ip"
+      target_type      = "instance"
       deregistration_delay = 10
       health_check = {
         enabled             = true
@@ -96,8 +94,6 @@ module "elb_auto" {
         healthy_threshold   = 3
         unhealthy_threshold = 3
         timeout             = 6
-#         matcher             = "200"
-        protocol            = "HTTP"         = 10
       }
     }
   ]
