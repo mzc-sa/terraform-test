@@ -38,7 +38,7 @@ module "elb_manual" {
     {
       name             = "${var.name}-tg"
       backend_protocol = "TCP"
-      backend_port     = 80
+      backend_port     = 443
       target_type      = "instance"
       deregistration_delay = 10
       health_check = {
@@ -55,9 +55,10 @@ module "elb_manual" {
 
   http_tcp_listeners = [
     {
-      port               = 80
+      port               = 443
       protocol           = "TCP"
       target_group_index = 0
+      certificate_arn    = var.certificate_arn 
     }
   ]
 
@@ -83,7 +84,7 @@ module "elb_auto" {
     {
       name             = "${var.name}-tg"
       backend_protocol = "TCP"
-      backend_port     = 80
+      backend_port     = 443
       target_type      = "instance"
       deregistration_delay = 10
       health_check = {
@@ -100,15 +101,130 @@ module "elb_auto" {
 
   http_tcp_listeners = [
     {
-      port               = 80
+      port               = 443
       protocol           = "TCP"
       target_group_index = 0
+      certificate_arn    = var.certificate_arn
     }
   ]
 
   tags = var.tags
   lb_tags = var.lb_tags
 }  
+
+######################### Extarnal NLB HTTP
+
+# ###############
+# # Data sources 
+# ###############
+# data "aws_vpc" "default" {
+#   tags = {
+#     Environment = "*"
+#   }
+# }
+
+# data "aws_subnet_ids" "private" {
+#   vpc_id = data.aws_vpc.default.id
+
+#   tags = {
+#     Tier        = "private"
+#     Environment = "*"
+#   }
+# }
+
+
+# #############
+# # ELB Module
+# #############
+# # Custom Subnets
+# module "elb_manual" {
+#   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
+#   version = "1.0.3"
+  
+#   count = var.vpc_id != " " && var.subnets != [] ? 1 : 0
+  
+#   name               = "${var.name}-nlb"
+#   internal           = var.internal
+#   load_balancer_type = var.load_balancer_type
+
+#   vpc_id             = var.vpc_id
+#   subnets            = var.subnets
+
+#   target_groups = [
+#     {
+#       name             = "${var.name}-tg"
+#       backend_protocol = "TCP"
+#       backend_port     = 80
+#       target_type      = "instance"
+#       deregistration_delay = 10
+#       health_check = {
+#         enabled             = true
+#         interval            = 30
+#         path                = "/"
+#         port                = "traffic-port"
+#         healthy_threshold   = 3
+#         unhealthy_threshold = 3
+#         timeout             = 6
+#       }
+#     }
+#   ]
+
+#   http_tcp_listeners = [
+#     {
+#       port               = 80
+#       protocol           = "TCP"
+#       target_group_index = 0
+#     }
+#   ]
+
+#   tags = var.tags
+#   lb_tags = var.lb_tags
+# }
+
+# # Data Source Subnets
+# module "elb_auto" {
+#   source  = "app.terraform.io/MEGAZONE-prod/elb/aws"
+#   version = "1.0.3"
+
+#   count = var.vpc_id != " " && var.subnets != [] ? 0 : 1
+  
+#   name               = "${var.name}-nlb"
+#   internal           = var.internal
+#   load_balancer_type = var.load_balancer_type
+
+#   vpc_id             = data.aws_vpc.default.id
+#   subnets            = data.aws_subnet_ids.private.ids
+
+#   target_groups = [
+#     {
+#       name             = "${var.name}-tg"
+#       backend_protocol = "TCP"
+#       backend_port     = 80
+#       target_type      = "instance"
+#       deregistration_delay = 10
+#       health_check = {
+#         enabled             = true
+#         interval            = 30
+#         path                = "/"
+#         port                = "traffic-port"
+#         healthy_threshold   = 3
+#         unhealthy_threshold = 3
+#         timeout             = 6
+#       }
+#     }
+#   ]
+
+#   http_tcp_listeners = [
+#     {
+#       port               = 80
+#       protocol           = "TCP"
+#       target_group_index = 0
+#     }
+#   ]
+
+#   tags = var.tags
+#   lb_tags = var.lb_tags
+# }  
 
 
 
