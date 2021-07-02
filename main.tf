@@ -40,16 +40,16 @@ module "elb_manual" {
       backend_protocol = "TCP"
       backend_port     = 80
       target_type      = "instance"
-#       deregistration_delay = 10
-#       health_check = {
-#         enabled             = true
-#         interval            = 30
-#         path                = "/"
-#         port                = "traffic-port"
-#         healthy_threshold   = 3
-#         unhealthy_threshold = 3
-#         timeout             = 6
-#       }
+      deregistration_delay = 10
+      health_check = {
+        enabled             = true
+        interval            = 30
+        path                = "/"
+        port                = "traffic-port"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+      }
     }
   ]
 
@@ -85,16 +85,16 @@ module "elb_auto" {
       backend_protocol = "TCP"
       backend_port     = 80
       target_type      = "instance"
-#       deregistration_delay = 10
-#       health_check = {
-#         enabled             = true
-#         interval            = 30
-#         path                = "/"
-#         port                = "traffic-port"
-#         healthy_threshold   = 3
-#         unhealthy_threshold = 3
-#         timeout             = 6
-#       }
+      deregistration_delay = 10
+      health_check = {
+        enabled             = true
+        interval            = 30
+        path                = "/"
+        port                = "traffic-port"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+      }
     }
   ]
 
