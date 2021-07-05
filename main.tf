@@ -26,7 +26,7 @@ data "aws_security_group" "default" {
 #####
 module "rds" {
   source  = "app.terraform.io/MEGAZONE-prod/rds/aws"
-  version = "1.0.0"
+  version = "1.0.1"
 
   identifier = var.identifier
 
