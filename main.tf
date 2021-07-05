@@ -3,7 +3,7 @@
 ###############
 data "aws_vpc" "default" {
   tags = {
-    Terraform = "true"
+    Environment  = "*"
   }
 }
 
@@ -11,8 +11,7 @@ data "aws_subnet_ids" "all" {
   vpc_id = data.aws_vpc.default.id
 
   tags = {
-    RDS       = "true"
-    Terraform = "true"
+    Tire       = "database"
   }
 }
 
@@ -25,9 +24,9 @@ data "aws_security_group" "default" {
 #####
 # DB
 #####
-module "db" {
-  source  = "app.terraform.io/megazonesa/rds/aws"
-  version = "~> 2.0"
+module "rds" {
+  source  = "app.terraform.io/MEGAZONE-prod/rds/aws"
+  version = "1.0.0"
 
   identifier = var.identifier
 
